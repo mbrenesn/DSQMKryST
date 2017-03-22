@@ -8,7 +8,7 @@
 #include <slepceps.h>
 
 typedef unsigned long long int ULLInt;
-typedef long long int LLInt;
+typedef PetscInt LLInt;
 
 class Environment
 {

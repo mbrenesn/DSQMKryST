@@ -1,5 +1,5 @@
 <hr>
-<h5>DSQMKryST<\h5>
+<h2>DSQMKryST</h2>
 
 Massively parallel implementation and approaches to simulate quantum dynamics using Krylov subspace techniques
 
@@ -21,3 +21,9 @@ The application depends on [PETSc](https://www.mcs.anl.gov/petsc/), [SLEPc](http
 
 <br><hr>
 <h3>Get Started</h3>
+
+<h5>PETSc build</h5>
+
+<h5>SLEPc build</h5>
+
+<h5>Boost</h5>

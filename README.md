@@ -40,23 +40,23 @@ tar -xzf [slepc-compressed-file]
 tar -xzf [boost-compressed-file]
 ```
 
-PETSc and SLEPc require ```bash environment variables```, you can set these by means of
+PETSc and SLEPc require ```environment variables```, you can set these by means of
 
 ```bash
 export PETSC_DIR = /path/to/petsc/petsc-3.7.5
 export PETSC_ARCH = arch_name
-export SLEPC_dir = /path/to/slepc/slepc-3.7.3
+export SLEPC_DIR = /path/to/slepc/slepc-3.7.3
 export BOOST_DIR = /path/to/boost/boost_1_63_0
 ```
 
-```bash PETSC_ARCH``` is a local name for your installation, as more than one installation of PETSc with different configuration can be built.   
+```PETSC_ARCH``` is a local name for your installation, as more than one installation of PETSc with different configuration can be built.   
 While you're at it, go ahead and load your MPI (Intel, OpenMPI, MPICH) module and find it's path:
 
 ```bash
 which mpicxx
 ```
 
-This will return a ```bash /path/to/mpi/bin/mpicxx```, set
+This will return a ```/path/to/mpi/bin/mpicxx```, set
 
 ```bash
 export MPI_DIR = /path/to/mpi
@@ -81,9 +81,29 @@ After configuration check that parameters match and follow the prompt to compile
 make PETSC_DIR=$PETSC_DIR PETSC_ARCH=$PETSC_ARCH all
 ```
 
+and test
+
+```bash
+make PETSC_DIR=$PETSC_DIR PETSC_ARCH=$PETSC_ARCH test
+```
+
 <h5>SLEPc build</h5>
 
+SLEPc relies on the configuration done for PETSc. Building SLEPc is a very simple process
+
+```bash
+cd /path/to/slepc/slepc-3.7.3
+./configure
+make SLEPC_DIR=$PWD PETSC_DIR=$PETSC_DIR PETSC_ARCH=$PETSC_ARCH
+make test
+```
+
 <h5>Boost</h5>
+
+Nothing to build here. Boost is a header-only library, no compiled library binaries or linking required.
+
+<br><hr>
+<h3>DSQMKryST structure and functionality</h3>
 
 <br><hr>
 <h3>FAQ</h3>

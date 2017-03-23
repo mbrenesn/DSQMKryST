@@ -105,5 +105,9 @@ Nothing to build here. Boost is a header-only library, no compiled library binar
 <br><hr>
 <h3>DSQMKryST structure and functionality</h3>
 
+![Design](./docs/Design.png)
+
+Please consult [this](./docs/PP_v1.0.pdf)
+
 <br><hr>
 <h3>FAQ</h3>

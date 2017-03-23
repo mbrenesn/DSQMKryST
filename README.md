@@ -124,7 +124,7 @@ The ```job.sh``` file shows a simple job submission script for cluster using PBS
 
 ![Design](./docs/Design.png)
 
-There are two different approaches in terms of distribution (NodeComm and RingComm), each of which with different pros and cons. Please consult [this](./docs/PP_v1.0.pdf)
+There are two different approaches in terms of distribution (NodeComm and RingComm), the best suitable algorithm will depend on local memory resources and desired problem size. Please consult [this](./docs/PP_v1.0.pdf).
 
 <br><hr>
 <h3>FAQ</h3>

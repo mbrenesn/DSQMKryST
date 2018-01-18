@@ -62,7 +62,7 @@ This will return a ```/path/to/mpi/bin/mpicxx```, set
 export MPI_DIR = /path/to/mpi
 ```
 
-Careful not to add the ```bash /bin``` directory to the path. Check the FAQ section at the end of this README if you had trouble during this stage.
+Careful not to add the ```/bin``` directory to the path. Check the FAQ section at the end of this README if you had trouble during this stage.
 
 <h5>PETSc build</h5>
 
@@ -102,8 +102,49 @@ make test
 
 Nothing to build here. Boost is a header-only library, no compiled library binaries or linking required.
 
+<h5>Running a simple example</h5>
+
+Access the directory of one of the implemented methods (NodeComm or RingComm) and use the makefile provided.
+
+```bash
+cd RingComm/
+make
+```
+
+and execute using the MPI execution command
+
+```bash
+mpirun -np <procs> ./aubry_RC.x
+```
+
+The ```job.sh``` file shows a simple job submission script for cluster using PBS.
+
 <br><hr>
 <h3>DSQMKryST structure and functionality</h3>
 
+![Design](./docs/Design.png)
+
+There are two different approaches in terms of distribution (NodeComm and RingComm), the best suitable algorithm will depend on local memory resources and desired problem size. Please consult [this](./docs/PP_v1.0.pdf).
+
 <br><hr>
 <h3>FAQ</h3>
+
+<h5>I don't have MPI on my machine</h5>
+
+Configure PETSc ```--with-mpi=1``` and an MPI installation will be carried out for you. On a cluster you have to configure PETSc with the local MPI installation to attain good performance, as shown in the previous section. Consult [the PETSc installation](https://www.mcs.anl.gov/petsc/documentation/installation.html) page for more details. 
+
+<h5>I don't like Github! How do I get the code?</h5>
+
+Green button at the top right - you can download the files instead of cloning the repository.
+
+<h5>You have implemented the Hamiltonian operator for the Aubry-André model, how can I use this to study my own model?</h5>
+
+Modify the ```SparseOp``` class. Particularly, you'll be interested in the ```construct_AA_hamiltonian``` public method and the ```determine_allocation_details_``` private method. Currently there's no way to introduce a new model without digging into the code, but work is being done towards this direction. Modifications to the actual code are not difficult, but require some basic knowledge of MPI and PETSc functionality.   
+
+One can think of constructing the diagonal terms of the Hamiltonian and the off-diagonal terms in two different steps (currently this is done in one step); as only the off-diagonal terms require careful attention, there's a penalty in performance with this approach though. I'd be interested to hear comments and add functionality for new physical models.
+
+<h5>What about measuring expectation values of other observables?</h5>
+
+Use a dense/sparse matrix representation of the observable using the basis from the ```Basis``` class and operate it with the time-evolved states. [This example](https://github.com/mbrenesn/LGT/tree/master) shows a way to measure other observables. 
+
+

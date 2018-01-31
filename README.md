@@ -18,7 +18,7 @@ The application depends on [PETSc](https://www.mcs.anl.gov/petsc/), [SLEPc](http
 
 <br><hr>
 <h5>Approaches</h5>
-[click here](docs/html_ringcomm/index.html)
+[click here](index.html)
 
 <br><hr>
 <h3>Get Started</h3>

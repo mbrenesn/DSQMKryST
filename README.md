@@ -12,9 +12,13 @@ DSQMKryST is an application based on implemented distributed memory parallel alg
 
 The main idea is to approximate the solutions to the time-dependent Schroedinger equation by means of Krylov subspace techniques using a carefully constructed and distributed basis for the Hilbert subspace and a sparse matrix representation of the Hamiltonian of the system. 
 
-Currently calculates estimations on the Loschmidt echo to show the basic scope of the application, but adding estimation to other quantum observables can be integrated with ease (such as magnetization and imbalance, or even entanglement entropy). The modifications required to accomplish this can be seen [here](https://github.com/mbrenesn/LGT/tree/master)
+Currently calculates estimations on the Loschmidt echo to show the basic scope of the application, but adding estimation to other quantum observables can be integrated with ease (such as magnetization and imbalance, or even entanglement entropy).
 
 The application depends on [PETSc](https://www.mcs.anl.gov/petsc/), [SLEPc](http://slepc.upv.es) and [Boost](http://www.boost.org)
+
+<br><hr>
+<h5>Approaches</h5>
+[click here](index.html)
 
 <br><hr>
 <h3>Get Started</h3>

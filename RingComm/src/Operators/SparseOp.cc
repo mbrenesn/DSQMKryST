@@ -4,7 +4,8 @@
 // Single custom constructor for this class.
 // Creates the Hamiltonian matrix depending on the basis chosen.
 /*******************************************************************************/
-SparseOp::SparseOp(const Environment &env, const Basis &basis)
+SparseOpRC::SparseOpRC(const EnvironmentRC &env, 
+                       const BasisRC &basis)
 {
   l_ = env.l;
   n_ = env.n;
@@ -23,7 +24,7 @@ SparseOp::SparseOp(const Environment &env, const Basis &basis)
 /*******************************************************************************/
 // Copy constructor
 /*******************************************************************************/
-SparseOp::SparseOp(const SparseOp &rhs)
+SparseOpRC::SparseOpRC(const SparseOpRC &rhs)
 {
   std::cout << "Copy constructor (ham matrix) has been called!" << std::endl;
 
@@ -42,7 +43,7 @@ SparseOp::SparseOp(const SparseOp &rhs)
 /*******************************************************************************/
 // Assignment operator
 /*******************************************************************************/
-SparseOp &SparseOp::operator=(const SparseOp &rhs)
+SparseOpRC &SparseOpRC::operator=(const SparseOpRC &rhs)
 {
   std::cout << "Assignment operator (ham matrix) has been called!" << std::endl;
     
@@ -64,7 +65,7 @@ SparseOp &SparseOp::operator=(const SparseOp &rhs)
   return *this;
 }
 
-SparseOp::~SparseOp()
+SparseOpRC::~SparseOpRC()
 {
   MatDestroy(&HamMat);
 }
@@ -73,7 +74,7 @@ SparseOp::~SparseOp()
 // Collects the nonlocal start index (global indices) of every processor, to be used
 // during the construction of the matrix
 /*******************************************************************************/
-void SparseOp::gather_nonlocal_values_(LLInt *start_inds)
+void SparseOpRC::gather_nonlocal_values_(LLInt *start_inds)
 {
   MPI_Allgather(&start_, 1, MPI_LONG_LONG, start_inds, 1, MPI_LONG_LONG, 
     PETSC_COMM_WORLD);
@@ -83,11 +84,11 @@ void SparseOp::gather_nonlocal_values_(LLInt *start_inds)
 // Determines the sparsity pattern to allocate memory only for the non-zero 
 // entries of the matrix
 /*******************************************************************************/
-void SparseOp::determine_allocation_details_(LLInt *int_basis, 
-                                             std::vector<LLInt> &cont, 
-                                             std::vector<LLInt> &st, 
-                                             PetscInt *diag, 
-                                             PetscInt *off)
+void SparseOpRC::determine_allocation_details_(LLInt *int_basis, 
+                                               std::vector<LLInt> &cont, 
+                                               std::vector<LLInt> &st, 
+                                               PetscInt *diag, 
+                                               PetscInt *off)
 {
   for(PetscInt i = 0; i < nlocal_; ++i) diag[i] = 1;
 
@@ -113,9 +114,9 @@ void SparseOp::determine_allocation_details_(LLInt *int_basis,
           bitset[next_site1] = 1;
           bitset[site]       = 0;
 
-          LLInt new_int1 = Utils::binary_to_int(bitset, l_);
+          LLInt new_int1 = UtilsRC::binary_to_int(bitset, l_);
           // Loop over all states and look for a match
-          LLInt match_ind1 = Utils::binsearch(int_basis, nlocal_, new_int1);
+          LLInt match_ind1 = UtilsRC::binsearch(int_basis, nlocal_, new_int1);
           if(match_ind1 == -1){
             cont.push_back(new_int1);
             st.push_back(state);
@@ -138,9 +139,9 @@ void SparseOp::determine_allocation_details_(LLInt *int_basis,
           bitset[next_site0] = 0;
           bitset[site]       = 1;
 
-          LLInt new_int0 = Utils::binary_to_int(bitset, l_);
+          LLInt new_int0 = UtilsRC::binary_to_int(bitset, l_);
           // Loop over all states and look for a match
-          LLInt match_ind0 = Utils::binsearch(int_basis, nlocal_, new_int0);
+          LLInt match_ind0 = UtilsRC::binsearch(int_basis, nlocal_, new_int0);
           if(match_ind0 == -1){
             cont.push_back(new_int0);
             st.push_back(state);
@@ -195,10 +196,10 @@ void SparseOp::determine_allocation_details_(LLInt *int_basis,
     MPI_Sendrecv_replace(&basis_help[0], basis_help_size, MPI_LONG_LONG, next, 0,
       prec, 0, PETSC_COMM_WORLD, MPI_STATUS_IGNORE);
 
-    PetscMPIInt source = Utils::mod((prec - exc), mpisize_);
+    PetscMPIInt source = UtilsRC::mod((prec - exc), mpisize_);
     for(LLInt i = 0; i < cont_size; ++i){
       if(cont[i] > 0){
-        LLInt m_ind = Utils::binsearch(basis_help, basis_help_size, cont[i]);
+        LLInt m_ind = UtilsRC::binsearch(basis_help, basis_help_size, cont[i]);
 
         if(m_ind != -1){
           if(basis_help[0] == 0) m_ind = m_ind - 1;
@@ -228,11 +229,11 @@ void SparseOp::determine_allocation_details_(LLInt *int_basis,
 /*******************************************************************************/
 // Computes the Hamiltonian matrix given by means of the integer basis
 /*******************************************************************************/
-void SparseOp::construct_AA_hamiltonian(LLInt *int_basis, 
-                                        double V, 
-                                        double t, 
-                                        double h,
-                                        double beta)
+void SparseOpRC::construct_AA_hamiltonian(LLInt *int_basis, 
+                                          double V, 
+                                          double t, 
+                                          double h,
+                                          double beta)
 {
   // Preallocation. For this we need a hint on how many non-zero entries the matrix will
   // have in the diagonal submatrix and the offdiagonal submatrices for each process
@@ -289,9 +290,9 @@ void SparseOp::construct_AA_hamiltonian(LLInt *int_basis,
           bitset[next_site1] = 1;
           bitset[site]       = 0;
 
-          LLInt new_int1 = Utils::binary_to_int(bitset, l_);
+          LLInt new_int1 = UtilsRC::binary_to_int(bitset, l_);
           // Loop over all states and look for a match
-          LLInt match_ind1 = Utils::binsearch(int_basis, nlocal_, new_int1);
+          LLInt match_ind1 = UtilsRC::binsearch(int_basis, nlocal_, new_int1);
           if(match_ind1 == -1){
             continue;
           }
@@ -317,9 +318,9 @@ void SparseOp::construct_AA_hamiltonian(LLInt *int_basis,
           bitset[next_site0] = 0;
           bitset[site]       = 1;
 
-          LLInt new_int0 = Utils::binary_to_int(bitset, l_);
+          LLInt new_int0 = UtilsRC::binary_to_int(bitset, l_);
           // Loop over all states and look for a match
-          LLInt match_ind0 = Utils::binsearch(int_basis, nlocal_, new_int0);
+          LLInt match_ind0 = UtilsRC::binsearch(int_basis, nlocal_, new_int0);
           if(match_ind0 == -1){
             continue;
           }

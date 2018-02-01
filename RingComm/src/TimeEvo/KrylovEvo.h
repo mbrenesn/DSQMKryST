@@ -1,6 +1,9 @@
+/** @addtogroup RingComm
+ * @{
+ */
 /**
- * \class KrylovEvo.
- *
+ * \class KrylovEvoRC.
+ * \ingroup RingComm
  * \brief This class is used to evaluate the dynamics of the system using the Krylov approach.
  *
  * The method used to evaluate the action of the propagator is described in Section 2 and Section 3
@@ -17,7 +20,7 @@
 #include "../Environment/Environment.h"
 #include "../Basis/Basis.h"
 
-class KrylovEvo
+class KrylovEvoRC
 {
   public:
     /** \brief Creates an instance of class KrylovEvo.
@@ -28,14 +31,14 @@ class KrylovEvo
       * This is the only available constructor of this class. After creating an instance of this class
       * the MFN and FN environments are set with the parameters given.
       */
-    KrylovEvo(const Mat &ham_mat,
-              const double &tol,
-              const int &max_kryt_its);
+    KrylovEvoRC(const Mat &ham_mat,
+                const double &tol,
+                const int &max_kryt_its);
     /** \brief Destructor.
       * 
       * Deallocates and destroys objects associated with the MFN component of SLEPc.
       */ 
-    ~KrylovEvo();
+    ~KrylovEvoRC();
     MFNConvergedReason reason; ///< Object related to the convergence of the algorithm.
                                ///< If !=0, then the algorithm failed to converge with given parameters.
     /** \brief Time evolution routine.
@@ -56,3 +59,4 @@ class KrylovEvo
            ///< operator, exponential in this particular case.
 };
 #endif
+/** @}*/

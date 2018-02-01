@@ -1,6 +1,9 @@
+/** @addtogroup RingComm
+ * @{
+ */
 /**
- * \class Basis
- *
+ * \class BasisRC
+ * \ingroup RingComm
  * \brief A computational representation of the Hilbert space basis.
  *        Refer to Section 3 of the manuscript in /docs.
  *
@@ -14,7 +17,7 @@
 
 #include "../Environment/Environment.h"
 
-class Basis
+class BasisRC
 {
   public:
     /** \brief Creates an instance of class Basis.
@@ -26,16 +29,16 @@ class Basis
       * please refer to Section 2 (Background) and Section 3 (Basis representation) of the manuscript
       * in /docs.
       */
-    Basis(const Environment &env);
+    BasisRC(const EnvironmentRC &env);
     /** \brief Destructor.
       * 
       * Deallocates memory needed for the computational representation of the basis.
       */ 
-    ~Basis();
+    ~BasisRC();
     /// Copy constructor.
-    Basis(const Basis &rhs);
+    BasisRC(const BasisRC &rhs);
     /// Overloading of the assignment operator.
-    Basis &operator=(const Basis &rhs);
+    BasisRC &operator=(const BasisRC &rhs);
     /** \brief Computes and distributes (using MPI) the representation of the basis elements.
       *
       * This should be called after creating an instance of Basis and before
@@ -47,7 +50,7 @@ class Basis
       * \param env An instance of class Environment.
       * \param bits If bits = true, outputs a bit representation.
       */
-    void print_basis(const Environment &env, 
+    void print_basis(const EnvironmentRC &env, 
                      bool bits = false);
     /** \brief Computes and distributes (using MPI) the representation of the basis elements
       *        in binary form, this is normally used for visualisation purposes.
@@ -75,3 +78,4 @@ class Basis
     LLInt first_int_();
 };
 #endif
+/** @}*/

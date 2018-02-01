@@ -1,7 +1,10 @@
+/** @addtogroup RingComm
+ * @{
+ */
 /**
- * \namespace Utils
- *
- * \brief Different utility functions used in the implementation
+ * \namespace UtilsRC
+ * \ingroup RingComm
+ * \brief Different utility functions used in the implementation. Specific for Ring exchange approach.
  */
 #ifndef __UTILS_H
 #define __UTILS_H
@@ -16,7 +19,7 @@
 #include "../Environment/Environment.h"
 #include "../Basis/Basis.h"
 
-namespace Utils
+namespace UtilsRC
 {
   /** \brief A different definition for modulus %, accounts for negative integers.
     * \param a An integer.
@@ -45,18 +48,6 @@ namespace Utils
     * \param bas An instance of class Basis.
     * \return The index of the Neel state.
     */
-  LLInt get_neel_index(const Environment &env, 
-                       const Basis &bas);
-  /** \brief Returns the position of a randomly picked state of the system in computational basis.
-    * \param env An instance of class Environment.
-    * \param bas An instance of class Basis.
-    * \param wtime If true, uses time to get the random index.
-    * \param verbose If true, print to stdout the state chosen.
-    * \return The index picked randomly, using Boost Mersenne-Twister RNG.
-    */
-  LLInt get_random_index(const Environment &env,
-                         const Basis &bas, 
-                         bool wtime, 
-                         bool verbose);
 }
 #endif
+/** @}*/

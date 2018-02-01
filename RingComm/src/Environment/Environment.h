@@ -1,6 +1,9 @@
+/** @addtogroup RingComm
+ * @{
+ */
 /**
- * \class Environment.
- *
+ * \class EnvironmentRC.
+ * \ingroup RingComm
  * \brief Initializes the MPI, PETSc and SLEPc environments.
  *
  * This class should be instantiated at the beginning of the program and at the end
@@ -21,7 +24,7 @@
 typedef unsigned long long int ULLInt;
 typedef PetscInt LLInt;
 
-class Environment
+class EnvironmentRC
 {
   public:
     /** \brief Creates an instance of class Environment.
@@ -34,15 +37,15 @@ class Environment
       * initialise PETSc, SLEPc and MPI environments and should be instantiated at the 
       * beginning of the program.
       */
-    Environment(int argc, 
-                char **argv, 
-                unsigned int l, 
-                unsigned int n);
+    EnvironmentRC(int argc, 
+                  char **argv, 
+                  unsigned int l, 
+                  unsigned int n);
     /** \brief Destructor.
       * 
       * Closes the MPI, PETSc and SLEPc environment.
       */
-    ~Environment();
+    ~EnvironmentRC();
     /** \brief Computes the dimension of the Hilbert space.
       */
     LLInt basis_size() const;
@@ -67,3 +70,4 @@ class Environment
   private:
 };
 #endif
+/** @}*/

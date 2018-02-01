@@ -1,6 +1,9 @@
+/** @addtogroup RingComm
+ * @{
+ */
 /**
- * \class InitialState.
- *
+ * \class InitialStateRC.
+ * \ingroup RingComm
  * \brief A class to construct initial states for time evolution.
  *
  * Currently only supports two different initial states: a Neel state and a random state
@@ -14,7 +17,7 @@
 #include "../Utils/Utils.h"
 #include "../Basis/Basis.h"
 
-class InitialState
+class InitialStateRC
 {
   public:
     /** \brief Creates an instance of class InitialState.
@@ -23,20 +26,22 @@ class InitialState
       *
       * This is the only available constructor of this class.
       */
-    InitialState(const Environment &env,
-                 const Basis &basis);
+    InitialStateRC(const EnvironmentRC &env,
+                   const BasisRC &basis);
     /** \brief Destructor.
       * 
       * Destroys the initial state vector automatically.
       */ 
-    ~InitialState();
+    ~InitialStateRC();
     /// Copy constructor.
-    InitialState(const InitialState &rhs);
+    InitialStateRC(const InitialStateRC &rhs);
     /// Overloading of the assignment operator.
-    InitialState &operator=(const InitialState &rhs);
+    InitialStateRC &operator=(const InitialStateRC &rhs);
     Vec InitialVec; ///< Initial state represented as a vector in Hilbert space with same parallel layout.
     /** \brief Method to compute the Neel state.
       * \param int_basis The integer basis, a member of class Basis.
+      *
+      * Specific for Ring exchange approach.
       */     
     void neel_initial_state(LLInt *int_basis);
     /** \brief Method to compute a random initial state.
@@ -44,7 +49,7 @@ class InitialState
       * \param wtime If true, random state changes with each execution based on current time.
       * \param verbose If true, prints to stdout the random state chosen.
       *
-      * RNG is Mersenne-Twister from Boost.
+      * RNG is Mersenne-Twister from Boost. Specific for Ring exchange approach.
       */     
     void random_initial_state(LLInt *int_basis,
                               bool wtime = false,
@@ -60,3 +65,4 @@ class InitialState
     PetscInt end_; ///< Global index (PETSc).
 };
 #endif
+/** @}*/

@@ -4,8 +4,8 @@
 // Single custom constructor for this class.
 // Creates the initial state object.
 /*******************************************************************************/
-InitialState::InitialState(const Environment &env,
-                           const Basis &basis)
+InitialStateRC::InitialStateRC(const EnvironmentRC &env,
+                               const BasisRC &basis)
 {
   l_ = env.l;
   n_ = env.n;
@@ -22,7 +22,7 @@ InitialState::InitialState(const Environment &env,
 /*******************************************************************************/
 // Copy constructor
 /*******************************************************************************/
-InitialState::InitialState(const InitialState &rhs)
+InitialStateRC::InitialStateRC(const InitialStateRC &rhs)
 {
   std::cout << "Copy constructor (initial state) has been called!" << std::endl;
 
@@ -42,7 +42,7 @@ InitialState::InitialState(const InitialState &rhs)
 /*******************************************************************************/
 // Assignment operator
 /*******************************************************************************/
-InitialState &InitialState::operator=(const InitialState &rhs)
+InitialStateRC &InitialStateRC::operator=(const InitialStateRC &rhs)
 {
   std::cout << "Assignment operator (diagonal op) has been called!" << std::endl;
     
@@ -65,7 +65,7 @@ InitialState &InitialState::operator=(const InitialState &rhs)
   return *this;
 }
 
-InitialState::~InitialState()
+InitialStateRC::~InitialStateRC()
 {
   VecDestroy(&InitialVec);
 }
@@ -73,7 +73,7 @@ InitialState::~InitialState()
 /*******************************************************************************/
 // Neel state
 /*******************************************************************************/
-void InitialState::neel_initial_state(LLInt *int_basis)
+void InitialStateRC::neel_initial_state(LLInt *int_basis)
 {
   LLInt index;
   if(l_ / 2 != n_){
@@ -87,8 +87,8 @@ void InitialState::neel_initial_state(LLInt *int_basis)
     neel.set(site);
   }
 
-  LLInt neel_int = Utils::binary_to_int(neel, l_);
-  index = Utils::binsearch(int_basis, nlocal_, neel_int);
+  LLInt neel_int = UtilsRC::binary_to_int(neel, l_);
+  index = UtilsRC::binsearch(int_basis, nlocal_, neel_int);
   if(index != -1){
     index += start_;
     VecSetValue(InitialVec, index, 1.0, INSERT_VALUES);
@@ -100,9 +100,9 @@ void InitialState::neel_initial_state(LLInt *int_basis)
 /*******************************************************************************/
 // Initial random state out of the computational basis
 /*******************************************************************************/
-void InitialState::random_initial_state(LLInt *int_basis,
-                                        bool wtime,
-                                        bool verbose)
+void InitialStateRC::random_initial_state(LLInt *int_basis,
+                                          bool wtime,
+                                          bool verbose)
 {
   LLInt pick_ind;
   boost::random::mt19937 gen;

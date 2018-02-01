@@ -1,6 +1,5 @@
-/**
- * @file
- */
+/** @addtogroup RingComm */
+/** @file */
 #include <iostream>
 
 #include "../Environment/Environment.h"
@@ -22,21 +21,21 @@ int main(int argc, char **argv)
   double final_time = 10.0;
 
   // Establish the environment
-  Environment env(argc, argv, l, n);
+  EnvironmentRC env(argc, argv, l, n);
 
   PetscMPIInt mpirank = env.mpirank;
   PetscMPIInt mpisize = env.mpisize;
 
   // Establish the basis environment, by pointer, to call an early destructor and reclaim
   // basis memory
-  Basis *basis = new Basis(env);
+  BasisRC *basis = new BasisRC(env);
 
   // Construct basis
   basis->construct_int_basis();
   //basis->print_basis(env);
 
   // Establish the Hamiltonian operator environment
-  SparseOp aubry(env, *basis); 
+  SparseOpRC aubry(env, *basis); 
 
   // Construct the Hamiltonian matrix
   aubry.construct_AA_hamiltonian(basis->int_basis,
@@ -46,7 +45,7 @@ int main(int argc, char **argv)
                                  beta);
 
   // Create an initial state before deleting the basis
-  InitialState init(env, *basis);
+  InitialStateRC init(env, *basis);
   init.random_initial_state(basis->int_basis, false, true);
 
   delete basis;
@@ -55,7 +54,7 @@ int main(int argc, char **argv)
   double tol = 1.0e-7;
   int maxits = 1000000;
 
-  KrylovEvo te(aubry.HamMat, tol, maxits);
+  KrylovEvoRC te(aubry.HamMat, tol, maxits);
 
   // Initial value
   PetscScalar l_echo;

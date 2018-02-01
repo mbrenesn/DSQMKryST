@@ -1,6 +1,9 @@
+/** @addtogroup RingComm
+  * @{
+  */
 /**
- * \class SparseOp.
- *
+ * \class SparseOpRC.
+ * \ingroup RingComm
  * \brief Related to the matrix representation of the Hamiltonian of the quantum system.
  *
  * The Hamiltonian matrix itself is a public member of this class and is row-wise distributed among
@@ -13,7 +16,7 @@
 #include "../Utils/Utils.h"
 #include "../Basis/Basis.h"
 
-class SparseOp
+class SparseOpRC
 {
   public:
     /** \brief Creates an instance of class SparseOp.
@@ -26,17 +29,17 @@ class SparseOp
       * elements. Please refer to Figure 1 and Section 3 (Hamiltonian matrix construction) of the 
       * manuscript in /docs for more information.
       */
-    SparseOp(const Environment &env, 
-             const Basis &basis);
+    SparseOpRC(const EnvironmentRC &env, 
+               const BasisRC &basis);
     /** \brief Destructor.
       * 
       * Deallocates and destroys the Hamiltonian matrix, no need to call MatDestroy() on the matrix.
       */ 
-    ~SparseOp();
+    ~SparseOpRC();
     /// Copy constructor.
-    SparseOp(const SparseOp &rhs);
+    SparseOpRC(const SparseOpRC &rhs);
     /// Overloading of the assignment operator.
-    SparseOp &operator=(const SparseOp &rhs);
+    SparseOpRC &operator=(const SparseOpRC &rhs);
     /** \brief Allocates memory and inserts elements to Hamiltonian matrix.
       * 
       * This should be called after creating an instance of SparseOp and before using time-evolution
@@ -80,3 +83,4 @@ class SparseOp
                                        PetscInt *off);
 };
 #endif
+/** @}*/

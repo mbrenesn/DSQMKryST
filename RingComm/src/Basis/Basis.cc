@@ -3,7 +3,7 @@
 /*******************************************************************************/
 // Custom/only constructor
 /*******************************************************************************/
-Basis::Basis(const Environment &env)
+BasisRC::BasisRC(const EnvironmentRC &env)
 {
   l_ = env.l;
   n_ = env.n;
@@ -19,7 +19,7 @@ Basis::Basis(const Environment &env)
 /*******************************************************************************/
 // Copy constructor
 /*******************************************************************************/
-Basis::Basis(const Basis &rhs)
+BasisRC::BasisRC(const BasisRC &rhs)
 {
   std::cout << "Copy constructor (basis) has been called!" << std::endl;
 
@@ -40,7 +40,7 @@ Basis::Basis(const Basis &rhs)
 /*******************************************************************************/
 // Assignment operator
 /*******************************************************************************/
-Basis &Basis::operator=(const Basis &rhs)
+BasisRC &BasisRC::operator=(const BasisRC &rhs)
 {
   std::cout << "Assignment operator (basis) has been called!" << std::endl;
 
@@ -61,7 +61,7 @@ Basis &Basis::operator=(const Basis &rhs)
   return *this;
 }
 
-Basis::~Basis()
+BasisRC::~BasisRC()
 {
   delete [] int_basis;
 }
@@ -69,7 +69,7 @@ Basis::~Basis()
 /*******************************************************************************/
 // Helper function.
 /*******************************************************************************/
-LLInt Basis::factorial_(LLInt n)
+LLInt BasisRC::factorial_(LLInt n)
 {
   return (n == 1 || n == 0) ? 1 : factorial_(n - 1) * n;
 }
@@ -78,7 +78,7 @@ LLInt Basis::factorial_(LLInt n)
 // Returns the smallest possible integer that can be expressed with a given
 // binary combination.
 /*******************************************************************************/
-LLInt Basis::first_int_()
+LLInt BasisRC::first_int_()
 {
   LLInt first = 0;
   for(LLInt i = 0; i < n_; ++i){
@@ -102,7 +102,7 @@ LLInt Basis::first_int_()
 // returns an array which contains all possible combinations represented as
 // integer values.
 /*******************************************************************************/
-void Basis::construct_int_basis()
+void BasisRC::construct_int_basis()
 {
   LLInt w;                                         // Next permutation of bits
   LLInt first = first_int_();
@@ -122,8 +122,8 @@ void Basis::construct_int_basis()
 /*******************************************************************************/
 // Print to std out
 /*******************************************************************************/
-void Basis::print_basis(const Environment &env, 
-                        bool bits)
+void BasisRC::print_basis(const EnvironmentRC &env, 
+                          bool bits)
 {
   std::cout << "Global rank: " << env.mpirank << std::endl;
   for(LLInt i = 0; i < basis_local; ++i){
@@ -141,7 +141,7 @@ void Basis::print_basis(const Environment &env,
 // tation, boost library provides best results on the long run.
 // See Pieterse, et al. (2010) for a reference
 /*******************************************************************************/
-void Basis::construct_bit_basis(boost::dynamic_bitset<> *bit_basis)
+void BasisRC::construct_bit_basis(boost::dynamic_bitset<> *bit_basis)
 {
   for(LLInt i = 0; i < basis_local; ++i){
     boost::dynamic_bitset<> bs(l_, int_basis[i]);

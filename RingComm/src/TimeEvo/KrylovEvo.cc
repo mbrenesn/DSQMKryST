@@ -1,8 +1,8 @@
 #include "KrylovEvo.h"
 
-KrylovEvo::KrylovEvo(const Mat &ham_mat,
-                     const double &tol,
-                     const int &max_kryt_its)
+KrylovEvoRC::KrylovEvoRC(const Mat &ham_mat,
+                         const double &tol,
+                         const int &max_kryt_its)
 {
   MFNCreate(PETSC_COMM_WORLD, &mfn_);
   MFNSetOperator(mfn_, ham_mat);
@@ -14,12 +14,12 @@ KrylovEvo::KrylovEvo(const Mat &ham_mat,
   MFNSetUp(mfn_);
 }
 
-KrylovEvo::~KrylovEvo()
+KrylovEvoRC::~KrylovEvoRC()
 {
   MFNDestroy(&mfn_);
 }
 
-void KrylovEvo::krylov_evo(const double &final_time,
+void KrylovEvoRC::krylov_evo(const double &final_time,
                            const double &initial_time,
                            Vec &vec)
 {

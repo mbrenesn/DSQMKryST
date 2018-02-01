@@ -1,9 +1,9 @@
 #include "Environment.h"
 
-Environment::Environment(int argc, 
-                         char **argv, 
-                         unsigned int l, 
-                         unsigned int n)
+EnvironmentRC::EnvironmentRC(int argc, 
+                           char **argv, 
+                           unsigned int l, 
+                           unsigned int n)
 : l(l), n(n)
 {
   SlepcInitialize(&argc, &argv, NULL, NULL);
@@ -12,7 +12,7 @@ Environment::Environment(int argc,
   MPI_Comm_rank(PETSC_COMM_WORLD, &mpirank);
 }
 
-Environment::~Environment()
+EnvironmentRC::~EnvironmentRC()
 {
   SlepcFinalize();
 }
@@ -25,7 +25,7 @@ Environment::~Environment()
 // igned long long integers. Instead we can use the following expression to
 // compute the size of the system.
 /*******************************************************************************/
-LLInt Environment::basis_size() const 
+LLInt EnvironmentRC::basis_size() const 
 {
   double size = 1.0;
   for(LLInt i = 1; i <= (l - n); ++i){
@@ -40,10 +40,10 @@ LLInt Environment::basis_size() const
 // This is done to avoid allocation of PETSc objects before they are required,
 // therefore saving memory
 /*******************************************************************************/
-void Environment::distribution(PetscInt b_size, 
-                               PetscInt &nlocal, 
-                               PetscInt &start, 
-                               PetscInt &end) const
+void EnvironmentRC::distribution(PetscInt b_size, 
+                                 PetscInt &nlocal, 
+                                 PetscInt &start, 
+                                 PetscInt &end) const
 {
   nlocal = b_size / mpisize;
   PetscInt rest = b_size % mpisize;

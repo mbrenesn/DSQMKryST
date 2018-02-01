@@ -3,7 +3,9 @@
 
 Massively parallel implementation and approaches to simulate quantum dynamics using Krylov subspace techniques
 
-Current version    : v0.1 (March 22, 2017)
+Current version    : v0.2 (January, 2017)
+
+Documentation: https://mbrenesn.github.io/DSQMKryST/html/index.html
 
 <br><hr>
 <h3>Synopsis</h3>
@@ -18,14 +20,15 @@ The application depends on [PETSc](https://www.mcs.anl.gov/petsc/), [SLEPc](http
 
 <br><hr>
 <h5>Approaches</h5>
-[click here](index.html)
+
+There are two different approaches implemented: RingComm and NodeComm. Please refer to the [manuscript](docs/PP_v2.0.pdf) for details on the pros and cons of each one of them.
 
 <br><hr>
 <h3>Get Started</h3>
 
 <h5>Instructions for a Linux cluster</h5>
 
-You'll need PETSc, SLEPc and Boost to start with. These may already be installed in your cluster or personal computer, however I encourage you to download and install these libraries on your own as the PETSc build required to compile and execute the application properly requires custom settings - configuration and compilation of these libraries it's easy and gives you the freedom to customize as you want your installation.
+You'll need PETSc, SLEPc and Boost to start with. These may already be installed in your cluster or personal computer, however we encourage you to download and install these libraries on your own as the PETSc build required to compile and execute the application properly requires custom settings - configuration and compilation of these libraries it's easy and gives you the freedom to customize as you want your installation.
 
 You probably won't have root access to the cluster, which means the libraries have to be installed in a directory you have access to, so go ahead and download the source files in your home directory or another directory of your choosing:
 
@@ -128,7 +131,7 @@ The ```job.sh``` file shows a simple job submission script for cluster using PBS
 
 ![Design](./docs/Design.png)
 
-There are two different approaches in terms of distribution (NodeComm and RingComm), the best suitable algorithm will depend on local memory resources and desired problem size. Please consult [this](./docs/PP_v1.0.pdf).
+There are two different approaches in terms of distribution (NodeComm and RingComm), the best suitable algorithm will depend on local memory resources and desired problem size. Please consult [this](./docs/PP_v2.0.pdf).
 
 <br><hr>
 <h3>FAQ</h3>
@@ -145,10 +148,10 @@ Green button at the top right - you can download the files instead of cloning th
 
 Modify the ```SparseOp``` class. Particularly, you'll be interested in the ```construct_AA_hamiltonian``` public method and the ```determine_allocation_details_``` private method. Currently there's no way to introduce a new model without digging into the code, but work is being done towards this direction. Modifications to the actual code are not difficult, but require some basic knowledge of MPI and PETSc functionality.   
 
-One can think of constructing the diagonal terms of the Hamiltonian and the off-diagonal terms in two different steps (currently this is done in one step); as only the off-diagonal terms require careful attention, there's a penalty in performance with this approach though. I'd be interested to hear comments and add functionality for new physical models.
+One can think of constructing the diagonal terms of the Hamiltonian and the off-diagonal terms in two different steps (currently this is done in one step); as only the off-diagonal terms require careful attention, there's a penalty in performance with this approach though. We are interested to hear comments and add functionality for new physical models.
 
 <h5>What about measuring expectation values of other observables?</h5>
 
-Use a dense/sparse matrix representation of the observable using the basis from the ```Basis``` class and operate it with the time-evolved states. [This example](https://github.com/mbrenesn/LGT/tree/master) shows a way to measure other observables. 
+Use a dense/sparse matrix representation of the observable using the basis from the ```Basis``` class and operate it with the time-evolved states. [This example](https://github.com/mbrenesn/QuDyn) shows a way to measure other observables. 
 
 
